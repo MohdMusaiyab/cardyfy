@@ -1,0 +1,21 @@
+# Node
+node_modules/
+.next/
+dist/
+
+# Go
+backend/bin/
+backend/pkg/
+backend/.env
+backend/go.sum
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
