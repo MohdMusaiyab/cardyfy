@@ -2,13 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
-	"github.com/MohdMusaiyab/cardyfy/models"
+	"github.com/MohdMusaiyab/cardyfy/services"
 )
-
-
 
 func GetUserProfile(w http.ResponseWriter, r *http.Request) {
 	username := r.URL.Query().Get("username")
@@ -17,24 +14,12 @@ func GetUserProfile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := http.Get(fmt.Sprintf("https://api.github.com/users/%s", username))
+	user, err := services.FetchUser(username)
 	if err != nil {
-		http.Error(w, "Failed to fetch user from GitHub", http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		http.Error(w, "GitHub API returned an error", resp.StatusCode)
-		return
-	}
-
-	var githubUser models.GitHubUser
-	if err := json.NewDecoder(resp.Body).Decode(&githubUser); err != nil {
-		http.Error(w, "Failed to parse GitHub user", http.StatusInternalServerError)
+		http.Error(w, "Failed to fetch user", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(githubUser)
+	json.NewEncoder(w).Encode(user)
 }

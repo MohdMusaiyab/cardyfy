@@ -7,6 +7,9 @@ import (
 )
 
 func RegisterRoutes(mux *http.ServeMux) {
+	//Final for Getting User Profile, User Repos, and Repo Languages
+	mux.HandleFunc("/api/user/profile/details", handlers.GetUserProfileSummary)
+
 	// User profile
 	mux.HandleFunc("/api/user/profile", handlers.GetUserProfile)
 
@@ -14,5 +17,5 @@ func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/api/user/repos", handlers.GetUserRepos)
 
 	// Repo languages
-	mux.HandleFunc("/api/repo/languages", handlers.GetRepoLanguages)
+	mux.HandleFunc("/api/repo/languages", handlers.GetUserLanguages)
 }
