@@ -6,16 +6,16 @@ import (
 	"github.com/MohdMusaiyab/cardyfy/handlers"
 )
 
+// RegisterRoutes maps all endpoints to their handlers
 func RegisterRoutes(mux *http.ServeMux) {
-	//Final for Getting User Profile, User Repos, and Repo Languages
-	mux.HandleFunc("/api/user/profile/details", handlers.GetUserProfileSummary)
+	// Health check (optional - root already in main.go)
+	mux.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"status":"ok"}`))
+	})
 
-	// User profile
-	mux.HandleFunc("/api/user/profile", handlers.GetUserProfile)
+	// Main image generation endpoint
+	mux.HandleFunc("/api/generate", handlers.GenerateCard)
+	mux.HandleFunc("/preview", handlers.PreviewCard)
 
-	// User repos
-	mux.HandleFunc("/api/user/repos", handlers.GetUserRepos)
-
-	// Repo languages
-	mux.HandleFunc("/api/repo/languages", handlers.GetUserLanguages)
 }
